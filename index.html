@@ -1,16 +1,30 @@
 <!DOCTYPE html>
-    <html lang="en">
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>HTML Grid with JavaScript</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odin Project - Etch a Sketch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
 
-    <body>
+<body>
+    <div class="container">
+        <div class="header">
+            <button type="button" class="sizePicker">Choose Grid Size</button>
+            <button type="button" class="resetButton">Reset</button>
+        </div>
+        <div class="leftside"></div>
         <div class="grid-container" id="gridContainer"></div>
-        <script type="text/javascript" src="script.js"> </script>
-    </body>
+        <div class="rightside"></div>
 
-    </html>
+        <div class="footer">
+            <button type="button" class="rainbowSketch">Rainbow Mode</button>
+            <button type="button" class="classic">Classic Mode</button>
+            <button type="button" class="darken">Darken</button>
+        </div>
+        <script type="text/javascript" src="script.js"> </script>
+    </div>
+</body>
+
+</html>

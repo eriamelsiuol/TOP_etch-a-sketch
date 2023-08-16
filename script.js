@@ -14,22 +14,26 @@
 // add the buttons - one does random rgb
 // the second does gradient b/w
 
-  const gridContainer = document.getElementById('gridContainer');
+const gridContainer = document.getElementById('gridContainer');
 
-  // Define the number of rows and columns in the grid
-  const numRows = 16;
-  const numCols = 16;
+// Define the number of rows and columns in the grid
+const numRows = 64;
+const numCols = 64;
+let etchMode = 'classic'; //mode can be classic, rainbow, or gradient
 
-  // Create grid items and add them to the container
-  for (let row = 0; row < numRows; row++) {
-    for (let col = 0; col < numCols; col++) {
-      const gridItem = document.createElement('div');
-      gridItem.className = 'grid-item';
-      //gridItem.textContent = `Row ${row + 1}, Col ${col + 1}`;
-      gridContainer.appendChild(gridItem);
+// Create grid items and add them to the container
+function generateEtchASketch(rows, cols, mode) {
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const gridItem = document.createElement('div');
+            gridItem.className = 'grid-item';
+            //gridItem.textContent = `Row ${row + 1}, Col ${col + 1}`;
+            gridContainer.appendChild(gridItem);
 
-      gridItem.addEventListener('mouseenter', () => {
-        gridItem.classList.add('hovered');
-      });
+            gridItem.addEventListener('mouseenter', () => {
+                gridItem.classList.add(mode);
+            });
+        }
     }
-  }
+}
+generateEtchASketch(numRows, numCols, etchMode);
