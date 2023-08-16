@@ -25,7 +25,11 @@
     for (let col = 0; col < numCols; col++) {
       const gridItem = document.createElement('div');
       gridItem.className = 'grid-item';
-      gridItem.textContent = `Row ${row + 1}, Col ${col + 1}`;
+      //gridItem.textContent = `Row ${row + 1}, Col ${col + 1}`;
       gridContainer.appendChild(gridItem);
+
+      gridItem.addEventListener('mouseenter', () => {
+        gridItem.classList.add('hovered');
+      });
     }
   }
