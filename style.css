@@ -1,7 +1,7 @@
 .container {
     display: grid;
-    grid-template-columns: 1fr 6fr 1 fr;
-    grid-template-rows: 1fr 6fr 1 fr;
+    grid-template-columns: 1fr 6fr 1fr;
+    grid-template-rows: 1fr 6fr 1fr;
     
 }
 .header {
@@ -31,8 +31,6 @@
 .grid-container {
     display: grid;
     margin: 0 auto;
-    grid-template-columns: repeat(64, calc(600px/64));
-    grid-template-rows: repeat(64, calc(600px/64));
     gap: 1px;
     grid-row: 2 / 3;
     grid-column: 2 / 3;
@@ -56,5 +54,10 @@
     background-color: wheat;
 }
 .grid-item.rainbow {
+
+}
+button {
     background-color: pink;
+    width: 6em;
+    min-height: 4em;
 }
