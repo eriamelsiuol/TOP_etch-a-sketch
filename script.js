@@ -17,17 +17,17 @@
 const gridContainer = document.getElementById('gridContainer');
 
 // Define the number of rows and columns in the grid
-const numRows = 16;
-const numCols = 16;
+let numRows = 16;
+let numCols = 16;
 let etchMode = 'classic'; //mode can be classic, rainbow, or gradient
 
 // Create grid items and add them to the container
 function generateEtchASketch(rows, cols, mode) {
-    //clear the old grid (because we will regenerate later
+    //clear the old grid (because we will regenerate later)
     let element = document.getElementById("gridContainer");
     while (element.firstChild) {
-      element.removeChild(element.firstChild);
-    }    
+        element.removeChild(element.firstChild);
+    }
     //set the grid parameters with CSS (template rows and columns)
     gridContainer.style.gridTemplateColumns = `repeat(${cols}, calc(500px/${cols}))`;
     gridContainer.style.gridTemplateRows = `repeat(${rows}, calc(500px/${rows}))`;
@@ -40,19 +40,84 @@ function generateEtchASketch(rows, cols, mode) {
             //gridItem.textContent = `Row ${row + 1}, Col ${col + 1}`;
             gridContainer.appendChild(gridItem);
 
-            gridItem.addEventListener('mouseenter', () => {
-                gridItem.classList.add(mode);
-            });
+            switch (mode) {
+                case 'classic':
+                    //this adds the hover effect via a class
+                    gridItem.addEventListener('mouseenter', () => {
+                        gridItem.classList.add(mode);
+                    });
+                    break;
+                case 'rainbow':
+                    //rainbow mode
+                    gridItem.addEventListener('mouseenter', () => {
+                        // Generate a random color
+                        const randomColor = generateRandomColor();
+                        gridItem.style.backgroundColor = randomColor;
+                    });
+                    break;
+                case 'darken' :
+                    //darkening mode
+                    gridItem.addEventListener('mouseenter', () => {
+                        darkenGridItem(gridItem, 0.1); // Darken by 10%
+                      });
+            }
         }
     }
 }
 generateEtchASketch(numRows, numCols, etchMode);
 
+// grid sizing listener
 const sizeButton = document.getElementById('sizePicker');
-
 sizeButton.addEventListener('click', () => {
     //need to check that the input is a number
     // and also that it stays below 128, otherwise the browser has trouble
     const size = prompt("Enter the grid size");
+    numRows = size;
+    numCols = size;
     generateEtchASketch(size, size, etchMode);
 });
+//reset listener
+const resetButton = document.getElementById('resetButton');
+resetButton.addEventListener('click', () => {
+    generateEtchASketch(numRows, numCols, etchMode);
+});
+
+//listener for rainbow mode
+const rainbowButton = document.getElementById('rainbowSketch');
+
+rainbowButton.addEventListener('click', () => {
+    etchMode = 'rainbow';
+    generateEtchASketch(numRows, numCols, etchMode);
+});
+
+//listener for classic mode
+const classicButton = document.getElementById('classic');
+
+classicButton.addEventListener('click', () => {
+    etchMode = 'classic';
+    generateEtchASketch(numRows, numCols, etchMode);
+});
+const darkenButton = document.getElementById('darken');
+
+darkenButton.addEventListener('click', () => {
+    etchMode = 'darken';
+    generateEtchASketch(numRows, numCols, etchMode);
+});
+
+// Function to generate a random color
+function generateRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// Function to darken a gray grid item by a specified percentage
+function darkenGridItem(item, percentage) {
+    const currentColor = window.getComputedStyle(item).backgroundColor;
+    const rgbValues = currentColor.match(/\d+/g); // Extract RGB values
+    const newColor = `rgb(${Math.max(rgbValues[0] - 255 * percentage, 0)}, ${Math.max(rgbValues[1] - 255 * percentage, 0)}, ${Math.max(rgbValues[2] - 255 * percentage, 0)})`;
+    item.style.backgroundColor = newColor;
+  }
