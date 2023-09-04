@@ -21,51 +21,6 @@ let numRows = 16;
 let numCols = 16;
 let etchMode = 'classic'; //mode can be classic, rainbow, or gradient
 
-// Create grid items and add them to the container
-function generateEtchASketch(rows, cols, mode) {
-    //clear the old grid (because we will regenerate later)
-    let element = document.getElementById("gridContainer");
-    while (element.firstChild) {
-        element.removeChild(element.firstChild);
-    }
-    //set the grid parameters with CSS (template rows and columns)
-    gridContainer.style.gridTemplateColumns = `repeat(${cols}, calc(500px/${cols}))`;
-    gridContainer.style.gridTemplateRows = `repeat(${rows}, calc(500px/${rows}))`;
-
-    //now generate the grid
-    for (let row = 0; row < rows; row++) {
-        for (let col = 0; col < cols; col++) {
-            const gridItem = document.createElement('div');
-            gridItem.className = 'grid-item';
-            //gridItem.textContent = `Row ${row + 1}, Col ${col + 1}`;
-            gridContainer.appendChild(gridItem);
-
-            switch (mode) {
-                case 'classic':
-                    //this adds the hover effect via a class
-                    gridItem.addEventListener('mouseenter', () => {
-                        gridItem.classList.add(mode);
-                    });
-                    break;
-                case 'rainbow':
-                    //rainbow mode
-                    gridItem.addEventListener('mouseenter', () => {
-                        // Generate a random color
-                        const randomColor = generateRandomColor();
-                        gridItem.style.backgroundColor = randomColor;
-                    });
-                    break;
-                case 'darken' :
-                    //darkening mode
-                    gridItem.addEventListener('mouseenter', () => {
-                        darkenGridItem(gridItem, 0.1); // Darken by 10%
-                      });
-            }
-        }
-    }
-}
-generateEtchASketch(numRows, numCols, etchMode);
-
 // grid sizing listener
 const sizeButton = document.getElementById('sizePicker');
 sizeButton.addEventListener('click', () => {
@@ -76,6 +31,7 @@ sizeButton.addEventListener('click', () => {
     numCols = size;
     generateEtchASketch(size, size, etchMode);
 });
+
 //reset listener
 const resetButton = document.getElementById('resetButton');
 resetButton.addEventListener('click', () => {
@@ -84,24 +40,20 @@ resetButton.addEventListener('click', () => {
 
 //listener for rainbow mode
 const rainbowButton = document.getElementById('rainbowSketch');
-
 rainbowButton.addEventListener('click', () => {
     etchMode = 'rainbow';
-    generateEtchASketch(numRows, numCols, etchMode);
 });
 
 //listener for classic mode
 const classicButton = document.getElementById('classic');
-
 classicButton.addEventListener('click', () => {
     etchMode = 'classic';
-    generateEtchASketch(numRows, numCols, etchMode);
 });
-const darkenButton = document.getElementById('darken');
 
+//listener for darken
+const darkenButton = document.getElementById('darken');
 darkenButton.addEventListener('click', () => {
     etchMode = 'darken';
-    generateEtchASketch(numRows, numCols, etchMode);
 });
 
 // Function to generate a random color
@@ -120,4 +72,48 @@ function darkenGridItem(item, percentage) {
     const rgbValues = currentColor.match(/\d+/g); // Extract RGB values
     const newColor = `rgb(${Math.max(rgbValues[0] - 255 * percentage, 0)}, ${Math.max(rgbValues[1] - 255 * percentage, 0)}, ${Math.max(rgbValues[2] - 255 * percentage, 0)})`;
     item.style.backgroundColor = newColor;
-  }
+}
+
+// Create grid items and add them to the container
+function generateEtchASketch(rows, cols, mode) {
+    //clear the old grid (because we will regenerate later)
+    let element = document.getElementById("gridContainer");
+    while (element.firstChild) {
+        element.removeChild(element.firstChild);
+    }
+    //set the grid parameters with CSS (template rows and columns)
+    gridContainer.style.gridTemplateColumns = `repeat(${cols}, calc(500px/${cols}))`;
+    gridContainer.style.gridTemplateRows = `repeat(${rows}, calc(500px/${rows}))`;
+
+    //now generate the grid
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const gridItem = document.createElement('div');
+            gridItem.className = 'grid-item';
+            //gridItem.textContent = `Row ${row + 1}, Col ${col + 1}`;
+            gridContainer.appendChild(gridItem);
+            gridItem.addEventListener('mouseenter', () => {
+                switch (etchMode) {
+                    case 'classic':
+                        //this adds the hover effect via a class
+                        gridItem.style.backgroundColor = 'darkslategray';
+                        break;
+                    case 'rainbow':
+                        //rainbow mode
+                        const randomColor = generateRandomColor();
+                        gridItem.style.backgroundColor = randomColor;
+                        break;
+                    case 'darken':
+                        //darkening mode
+                        darkenGridItem(gridItem, 0.1); // Darken by 10%
+                        break;
+                }
+            
+            });
+        }
+    }
+}
+generateEtchASketch(numRows, numCols, etchMode);
+
+
+
