@@ -26,7 +26,7 @@ const sizeButton = document.getElementById('sizePicker');
 sizeButton.addEventListener('click', () => {
     //need to check that the input is a number
     // and also that it stays below 128, otherwise the browser has trouble
-    const size = prompt("Enter the grid size");
+    const size = Math.round(prompt("Enter the grid size"));
     numRows = size;
     numCols = size;
     generateEtchASketch(size, size, etchMode);
